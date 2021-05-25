@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -31,6 +33,10 @@ public class Users implements Serializable {
 
     @Column ( name = "provider", nullable = true)
     public String provider;
+
+    @OneToOne
+    @JoinColumn(name = "profile")
+    private Profile profile;
 
     @Column(updatable = false)
     @CreationTimestamp
@@ -71,6 +77,14 @@ public class Users implements Serializable {
     }
     public void setLastName(String lastName){
         this.lastName = lastName;
+    }
+
+    public Profile getProfile() {
+        return this.profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
 
