@@ -23,6 +23,9 @@ public class Profile implements Serializable {
     @Column
     private Long carbong;
 
+    @Column
+    private Long level;
+
     @Column(updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -32,5 +35,25 @@ public class Profile implements Serializable {
     private LocalDateTime updatedAt;
 
     public Profile(){}
+
+    public Profile(Long carbong, Long level) {
+        this.carbong = carbong;
+        this.level = level;
+    }
+
+    public void setCarbong(Long carbong) {
+        this.carbong = carbong;
+    }
+
+    public Long getCarbong(){
+        return this.carbong;
+    }
+
+    public void setLevel(Long level) {
+        this.level = level;
+    }
+    public Long getLevel(){
+        return this.level;
+    }
     
 }
