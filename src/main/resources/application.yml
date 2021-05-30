@@ -13,16 +13,16 @@ spring:
       client:
         registration:
           github:
-            clientId: <clientId>
-            clientSecret: <clientSecret> 
+            clientId: b270eb8db01a44f89169
+            clientSecret: 81a2eb4e1a05b374e32f5cf3398cb2d7e80f7426 
             scope: read:user,user:email
           facebook:
-            client-id: <clientId> 
-            client-secret: <clientSecret>
+            client-id: 1394666030888764 
+            client-secret: edf72b566c209a6be8b9e31032b4f084 1048864095225-kr6vc9ghthfk3ocqln10pbr2n1sjqpkr.apps.googleusercontent.com
             scope: user_photo,email
           google:
-            client-id: <clientId> 
-            client-secret: <clientSecret>
+            client-id: 1048864095225-kr6vc9ghthfk3ocqln10pbr2n1sjqpkr.apps.googleusercontent.com
+            client-secret: YD9R59r9FTiBQQJBWoAecFaU
   # Database
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -32,7 +32,7 @@ spring:
   # JPA properties
   jpa:
     hibernate:
-      ddl-auto: update # When you launch the application for the first time - switch "none" at "create"
+      ddl-auto: update #create-drop #update # When you launch the application for the first time - switch "none" at "create"
     show-sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -44,6 +44,20 @@ spring:
       guru.springframework.controllers: DEBUG
       org.hibernate: DEBUG
       org: INFO
+  graphiql:
+     endpoint:
+       subscriptions: /graphql
+  # graphql:
+  #   servlet:
+  #     mapping: /graphql
+  #     enabled: true
+  #     corsEnabled: true
+  #     websocket:
+  #       enabled: true
+  #       path: /graphql
+  #     subscriptions:
+  #       websocket:
+  #         path: /graphql
 # Logger configuration
 # logging:
 #   pattern:

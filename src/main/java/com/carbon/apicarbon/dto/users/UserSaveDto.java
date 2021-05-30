@@ -1,20 +1,32 @@
 package com.carbon.apicarbon.dto.users;
 
+import com.carbon.apicarbon.models.Profile;
+
 public class UserSaveDto {
     public String email;
     public String firstName;
     public String lastName;
     public String provider;
+    public Profile profile;
 
     public UserSaveDto(){}
 
-    public UserSaveDto(String email, String firstName, String lastName, String provider) {
+    public UserSaveDto(String email, String firstName, String lastName, String provider, Profile profile) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.provider = provider;
+        this.profile = profile;
     }
 
+    public Profile getProfile() {
+        return this.profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+    
     public String getProvider () {
         return this.provider;
     }

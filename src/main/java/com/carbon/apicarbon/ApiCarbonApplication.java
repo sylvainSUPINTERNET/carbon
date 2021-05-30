@@ -1,8 +1,28 @@
 package com.carbon.apicarbon;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletResponse;
 
+import com.carbon.apicarbon.models.Effect;
+import com.carbon.apicarbon.models.Inventory;
+import com.carbon.apicarbon.models.Item;
+import com.carbon.apicarbon.models.ItemType;
+import com.carbon.apicarbon.models.Profile;
+import com.carbon.apicarbon.models.Users;
+import com.carbon.apicarbon.repositories.EffectRepository;
+import com.carbon.apicarbon.repositories.InventoryRepository;
+import com.carbon.apicarbon.repositories.ItemRepository;
+import com.carbon.apicarbon.repositories.ItemTypeRepository;
+import com.carbon.apicarbon.repositories.ProfileRepository;
+import com.carbon.apicarbon.repositories.UserRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +33,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @SpringBootApplication
 @Controller
-public class ApiCarbonApplication {
+public class ApiCarbonApplication implements CommandLineRunner {
 
+	@Autowired
+	EffectRepository effectRepository;
+	@Autowired
+	ItemTypeRepository itemTypeRepository;
+	@Autowired
+	ItemRepository itemRepository;
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	InventoryRepository inventoryRepository;
+	@Autowired
+	ProfileRepository profileRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(ApiCarbonApplication.class, args);
@@ -55,5 +87,50 @@ public class ApiCarbonApplication {
 	}
 
 
+	@Override
+	public void run(String... args) throws Exception {
+		/**
+		 * Generate MOCK
+		 */
+
+
+		ItemType itemType = new ItemType("Epée 2M");
+		this.itemTypeRepository.save(itemType);
+		ArrayList<ItemType> itemsType = new ArrayList<ItemType>();
+		itemsType.add(itemType);
+
+		Effect effect = new Effect("Tranquility", "Give you tranquility !");
+		ArrayList<Effect> effectsList = new ArrayList<Effect>();
+		effectsList.add(effect);
+		this.effectRepository.save(effect);
+
+		Item item = new Item("Epee de tranquilité", UUID.randomUUID().toString(), (long) 10, (long) 70, "http://osef.com", 2 , "Une épée pour être tranquille", false, effectsList, itemsType);
+		Item item2 = new Item("Epee de tranquilité Boosted", UUID.randomUUID().toString(), (long) 10, (long) 70, "http://osef.com", 2 , "Une épée pour être tranquille", false, effectsList, itemsType);
+
+		this.itemRepository.save(item);
+		this.itemRepository.save(item2);
+
+		
+		Users user1 = new Users("test@test.com", "testeur", "testName", "testProvider");
+		this.userRepository.save(user1);
+
+
+		List<Item> itemObjectNotTransiant = this.itemRepository.findAll();
+		List<Item> items = new ArrayList<Item>();
+		items.add(itemObjectNotTransiant.get(0));
+		items.add(itemObjectNotTransiant.get(1));
+
+		Inventory inventory = new Inventory(3, items);
+		this.inventoryRepository.save(inventory);
+		
+		Profile profile = new Profile((long)0, (long)70, inventory);
+		user1.setProfile(profile);
+
+		this.profileRepository.save(profile);
+		this.userRepository.save(user1);
+
+
+
+	}
 
 }
