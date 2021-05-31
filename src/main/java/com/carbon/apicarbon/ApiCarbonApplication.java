@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.carbon.apicarbon.constants.DefaultSettings;
 import com.carbon.apicarbon.models.Effect;
 import com.carbon.apicarbon.models.Inventory;
 import com.carbon.apicarbon.models.Item;
@@ -62,7 +63,6 @@ public class ApiCarbonApplication implements CommandLineRunner {
 	@GetMapping("/")
 	public void method(HttpServletResponse httpServletResponse, @AuthenticationPrincipal OAuth2User principal) {
 
-		
 		if ( principal != null ) {
 			System.out.println(principal.getName());
 			System.out.println(principal.getAttributes());
@@ -89,6 +89,21 @@ public class ApiCarbonApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+
+		Effect effectHearthstone = new Effect("Pierre de foyer", "Réinitialise le nombre de swipe à 60.");
+		ArrayList<Effect> effectsListMiscHearthstone = new ArrayList<Effect>();
+		effectsListMiscHearthstone.add(effectHearthstone);
+		this.effectRepository.save(effectHearthstone);
+		ItemType miscType = new ItemType("Divers");
+		ArrayList<ItemType> itemsMiscType = new ArrayList<ItemType>();
+		itemsMiscType.add(miscType);
+		this.itemTypeRepository.save(miscType);
+		
+		Item itemHearthStone = new Item("Pierre de foyer", UUID.randomUUID().toString(), (long) 1, (long) 1, "https://wow.zamimg.com/images/wow/icons/large/inv_misc_rune_01.jpg", 2 , "Réinitialiser votre nombre de swipe pour la journée !", true, effectsListMiscHearthstone, itemsMiscType);
+		this.itemRepository.save(itemHearthStone);
+
+
+
 		/**
 		 * Generate MOCK
 		 */
