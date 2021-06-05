@@ -13,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -30,9 +33,12 @@ public class Profile implements Serializable {
     @Column
     private Long level;
     
+    
     @OneToOne(mappedBy = "profile")
+    @JsonBackReference
     private Users user;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "inventory_id", referencedColumnName = "id")
     private Inventory inventory;

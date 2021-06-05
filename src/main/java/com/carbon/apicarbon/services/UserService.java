@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import static com.carbon.apicarbon.constants.DefaultSettingsInventory.INIT_INVENTORY_MAX_STACK;
 
 import com.carbon.apicarbon.constants.DefaultSettingsInventory;
+import com.carbon.apicarbon.dto.inventories.InventoryDTO;
 import com.carbon.apicarbon.dto.users.UserSaveDto;
 import com.carbon.apicarbon.models.Inventory;
 import com.carbon.apicarbon.models.Item;
@@ -21,12 +22,12 @@ import com.carbon.apicarbon.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@Transactional
 public class UserService {
 
     final static Logger logger = LoggerFactory.getLogger(UserService.class);
@@ -78,8 +79,29 @@ public class UserService {
             UserService.logger.info("New user created");
             return newUser;
         }
-        
-
     }
+
+    public Users getUserFromPrincipal(OAuth2User principal) {
+        Optional<Users> optionalUser = this.userRepository.findByEmail(principal.getAttribute("email"));
+
+        if ( optionalUser.isPresent() ) {
+            return optionalUser.get();
+        } 
+
+        return null;   
+    }
+
+    @Transactional
+    public Users testUser(){
+        Users user = this.userRepository.findByEmail("test@test.com").get();
+
+        //user.getProfile().getInventory().getItems().get(0).getItemTypes().stream().forEach(type -> System.out.println(type.getName()));
+        this.modelMapper.map(user.getProfile().getInventory(), InventoryDTO.class);
+        // TODO create DTO 
+        // Pour affichage inventaire 
+        // Pour affichage items dans l'inventaire
+        return user;
+    }
+    
     
 }

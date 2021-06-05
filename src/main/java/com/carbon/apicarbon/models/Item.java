@@ -4,16 +4,20 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -49,11 +53,22 @@ public class Item implements Serializable {
     @Column
     private boolean isConsumable;
 
-    @ManyToMany
-    private List<Effect> effects;
+    @ManyToMany(mappedBy = "items")
+    private List<Inventory> inventories;
 
     @ManyToMany
-    private List<ItemType> itemType;
+    @JoinTable(name = "item_effect", 
+    joinColumns = @JoinColumn(name="effect_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "item_id", referencedColumnName = "id"))
+    @JsonIgnore
+    private Set<Effect> effects;
+
+    @ManyToMany
+    @JoinTable(name = "item_items_type", 
+    joinColumns = @JoinColumn(name="item_type_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "item_id", referencedColumnName = "id"))
+    @JsonIgnore
+    private Set<ItemType> itemType;
 
     
     @Column(updatable = false)
@@ -79,7 +94,7 @@ public class Item implements Serializable {
      * @param itemType
      */
     public Item(String name, String uuid, Long unitPrice, Long levelRequired, String mediaUrl, Integer maxStack,
-            String description, boolean isConsumable, List<Effect> effects, List<ItemType> itemType) {
+            String description, boolean isConsumable, Set<Effect> effects, Set<ItemType> itemType) {
         this.name = name;
         this.uuid = uuid;
         this.unitPrice = unitPrice;
@@ -93,6 +108,13 @@ public class Item implements Serializable {
     }
 
 
+    public Set<Effect> getEffects() {
+        return this.effects;
+    }
+
+    public Set<ItemType> getItemTypes(){
+        return this.itemType;
+    }
     public boolean getIsConsumable() {
         return this.isConsumable;
     }
@@ -101,12 +123,12 @@ public class Item implements Serializable {
        this.isConsumable = isConsumable;
     }
 
-    public List<Effect> addEffect(Effect effect) {
+    public Set<Effect> addEffect(Effect effect) {
         this.effects.add(effect);
         return this.effects;
     }
 
-    public List<Effect> removeEffect(Effect effect) {
+    public Set<Effect> removeEffect(Effect effect) {
         this.effects.remove(effect);
         return this.effects;
     }
@@ -173,7 +195,7 @@ public class Item implements Serializable {
     public void addItemType(ItemType itemType) {
         this.itemType.add(itemType);
     } 
-    public List<ItemType> getItemType(){
+    public Set<ItemType> getItemType(){
         return this.itemType;
     }
 
