@@ -7,8 +7,9 @@ import javax.transaction.Transactional;
 
 import static com.carbon.apicarbon.constants.DefaultSettingsInventory.INIT_INVENTORY_MAX_STACK;
 
-import com.carbon.apicarbon.constants.DefaultSettingsInventory;
 import com.carbon.apicarbon.dto.inventories.InventoryDTO;
+import com.carbon.apicarbon.dto.item.ItemDto;
+import com.carbon.apicarbon.dto.users.UserFullProfileDto;
 import com.carbon.apicarbon.dto.users.UserSaveDto;
 import com.carbon.apicarbon.models.Inventory;
 import com.carbon.apicarbon.models.Item;
@@ -92,15 +93,22 @@ public class UserService {
     }
 
     @Transactional
-    public Users testUser(){
+    public UserFullProfileDto testUser(){
         Users user = this.userRepository.findByEmail("test@test.com").get();
 
         //user.getProfile().getInventory().getItems().get(0).getItemTypes().stream().forEach(type -> System.out.println(type.getName()));
-        this.modelMapper.map(user.getProfile().getInventory(), InventoryDTO.class);
+        UserFullProfileDto d = this.modelMapper.map(user, UserFullProfileDto.class);
+        
+        
+        InventoryDTO idto = this.modelMapper.map(user.getProfile().getInventory(), InventoryDTO.class);
+        //InventoryDTO idto = this.modelMapper.map(user.getProfile().getInventory().getItems().get(0).getEf, InventoryDTO.class);
+
+        d.setInventory(idto);
+
         // TODO create DTO 
         // Pour affichage inventaire 
         // Pour affichage items dans l'inventaire
-        return user;
+        return d;
     }
     
     

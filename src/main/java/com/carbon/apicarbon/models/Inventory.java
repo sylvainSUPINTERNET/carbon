@@ -19,8 +19,6 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity(name = "Inventories")
@@ -28,7 +26,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class Inventory {
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    private long id;
 
     @Column
     private Integer maxSlot;
@@ -71,6 +69,10 @@ public class Inventory {
 
     public void setMaxSlot(Integer maxSlot) {
         this.maxSlot = maxSlot;
+    }
+
+    public long getId(){
+        return this.id;
     }
 
 }
