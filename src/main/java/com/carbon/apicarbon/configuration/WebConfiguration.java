@@ -1,5 +1,6 @@
 package com.carbon.apicarbon.configuration;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 
 // Flow : 
@@ -23,16 +27,7 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter   {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-        .cors()
-        .configurationSource(request -> {
-            var cors = new CorsConfiguration();
-            cors.setAllowedOrigins(List.of("http://localhost:3000"));
-            cors.setAllowedMethods(List.of("GET","POST", "PUT", "DELETE", "OPTIONS"));
-            cors.setAllowedHeaders(List.of("*"));
-            cors.setAllowCredentials(true);
-            return cors;
-          })
-        .and()
+        .cors().and() // cors load CorsConfiguration bean by default
         .logout(l -> l.logoutSuccessUrl("/").permitAll())
         .authorizeRequests(a -> a.antMatchers("/", "/error", "/webjars/**", "/oauth2/authorization/github", "/oauth2/authorization/facebook", "/oauth2/authorization/gmail", "/graphiql", "/graphql", "/vendor/**","/users/testuser").permitAll()
         .anyRequest().authenticated())
@@ -41,6 +36,7 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter   {
         .oauth2Login()
         .successHandler(successHandler());
     }
+
 
     @Bean
     public AuthSuccessHandler successHandler() {
