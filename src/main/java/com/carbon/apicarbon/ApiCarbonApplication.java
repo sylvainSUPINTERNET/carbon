@@ -108,7 +108,7 @@ public class ApiCarbonApplication implements CommandLineRunner {
 		List<Item> i = this.itemRepository.findByName("Pierre de foyer");
 		List<Item> items = new ArrayList<Item>();
 		items.add(i.get(0));
-		Inventory inventory = new Inventory(3, items);
+		Inventory inventory = new Inventory(16, items);
 		this.inventoryRepository.save(inventory);
 
 		Users user1;
@@ -120,7 +120,7 @@ public class ApiCarbonApplication implements CommandLineRunner {
 		}
 
 
-		Profile profile = new Profile((long)0, (long)70, inventory);
+		Profile profile = new Profile((long)0, (long)70, inventory, 70L, 0L);
 		user1.setProfile(profile);
 		this.profileRepository.save(profile);
 		this.userRepository.save(user1);

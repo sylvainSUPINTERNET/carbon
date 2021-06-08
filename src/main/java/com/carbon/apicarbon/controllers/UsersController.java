@@ -31,7 +31,7 @@ public class UsersController {
     /**
      * http://localhost:9999/users/me?details=profile,inventory
      * @param principal
-     * @param details profile,inventory
+     * @param details profile,inventory 
      * @return
      */
     @GetMapping("/me") 

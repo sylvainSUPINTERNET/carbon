@@ -32,7 +32,14 @@ public class Profile implements Serializable {
 
     @Column
     private Long level;
-    
+
+    @Column 
+    private Long maxLevel;
+
+    @Column 
+    private Long currentLevelProgression; // if level 58 and progression 1 means 1 buble on 58 bubble
+
+
     
     @OneToOne(mappedBy = "profile")
     @JsonBackReference
@@ -54,10 +61,12 @@ public class Profile implements Serializable {
 
     public Profile(){}
 
-    public Profile(Long carbong, Long level, Inventory inventory) {
+    public Profile(Long carbong, Long level, Inventory inventory, Long maxLevel, Long currentLevelProgression) {
         this.carbong = carbong;
         this.level = level;
         this.inventory = inventory;
+        this.currentLevelProgression = currentLevelProgression;
+        this.maxLevel = maxLevel;
     }
 
     public Inventory getInventory(){
@@ -90,5 +99,23 @@ public class Profile implements Serializable {
     public void setUser(Users user) {
         this.user = user;
     }
+
+    
+    public Long getMaxLevel() {
+        return this.maxLevel;
+    }
+
+    public void setMaxLevel(Long maxLevel) {
+        this.maxLevel = maxLevel;
+    }
+
+    public Long getCurrentLevelProgression() {
+        return this.currentLevelProgression;
+    }
+
+    public void setCurrentLevelProgression(Long currentLevelProgression) {
+        this.currentLevelProgression = currentLevelProgression;
+    };  
+    
     
 }
