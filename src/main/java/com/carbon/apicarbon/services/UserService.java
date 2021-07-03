@@ -19,6 +19,7 @@ import com.carbon.apicarbon.repositories.InventoryRepository;
 import com.carbon.apicarbon.repositories.ItemRepository;
 import com.carbon.apicarbon.repositories.ProfileRepository;
 import com.carbon.apicarbon.repositories.UserRepository;
+import com.carbon.apicarbon.staticEnum.ClassEnum;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -61,7 +62,9 @@ public class UserService {
             Profile newProfile = new Profile();
             newProfile.setCarbong((long) 15);
             newProfile.setLevel((long) 1);
+            newProfile.setMaxLevel(Long.valueOf(70));
             userSaveDto.setProfile(newProfile);
+            newProfile.setClasse(ClassEnum.Guerrier.name());
 
 
             List<Item> items = this.itemRepository.findByName("Pierre de foyer");
@@ -75,6 +78,7 @@ public class UserService {
 
             newProfile.setUser(newUser);
 
+
             this.profileRepository.save(newProfile);
 
             UserService.logger.info("New user created");
@@ -82,11 +86,16 @@ public class UserService {
         }
     }
 
-    public Users getUserFromPrincipal(OAuth2User principal) {
+    public UserFullProfileDto getUserFromPrincipal(OAuth2User principal) {
         Optional<Users> optionalUser = this.userRepository.findByEmail(principal.getAttribute("email"));
 
+
         if ( optionalUser.isPresent() ) {
-            return optionalUser.get();
+            UserFullProfileDto up = this.modelMapper.map(optionalUser.get(), UserFullProfileDto.class);
+            InventoryDTO idto = this.modelMapper.map(up.getProfile().getInventory(), InventoryDTO.class);
+            up.setInventory(idto);
+
+            return up;
         } 
 
         return null;   

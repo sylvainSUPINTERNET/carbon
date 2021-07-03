@@ -29,6 +29,12 @@ spring:
     url: jdbc:postgresql://localhost:5432/zulian
     username: root
     password: root
+
+    # # test env
+    # url: jdbc:postgresql://postgresql-eco-innovation.alwaysdata.net/eco-innovation_e
+    # username: eco-innovation	
+    # password:	
+    
   # JPA properties
   jpa:
     hibernate:

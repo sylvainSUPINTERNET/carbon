@@ -23,6 +23,7 @@ import com.carbon.apicarbon.repositories.ItemRepository;
 import com.carbon.apicarbon.repositories.ItemTypeRepository;
 import com.carbon.apicarbon.repositories.ProfileRepository;
 import com.carbon.apicarbon.repositories.UserRepository;
+import com.carbon.apicarbon.staticEnum.ClassEnum;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -120,7 +121,7 @@ public class ApiCarbonApplication implements CommandLineRunner {
 		}
 
 
-		Profile profile = new Profile((long)0, (long)70, inventory, 70L, 0L);
+		Profile profile = new Profile(0L, 1L, inventory, 70L, 0L, ClassEnum.Guerrier.name());
 		user1.setProfile(profile);
 		this.profileRepository.save(profile);
 		this.userRepository.save(user1);
