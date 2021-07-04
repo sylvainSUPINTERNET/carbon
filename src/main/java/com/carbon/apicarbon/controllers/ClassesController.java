@@ -3,6 +3,7 @@ package com.carbon.apicarbon.controllers;
 import java.util.List;
 
 import com.carbon.apicarbon.dto.classes.ClassesDto;
+import com.carbon.apicarbon.repositories.ItemRepository;
 import com.carbon.apicarbon.services.ClassesService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class ClassesController {
 
     @Autowired
     ClassesService classesService;
+
+    @Autowired
+    ItemRepository itemRepository;
 
     @GetMapping("/classes") 
     public ResponseEntity<List<ClassesDto>> getClasses(@AuthenticationPrincipal OAuth2User principal) {

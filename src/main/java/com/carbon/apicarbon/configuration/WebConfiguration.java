@@ -22,7 +22,7 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter   {
         http
         .cors().and() // cors load CorsConfiguration bean by default
         .logout(l -> l.logoutSuccessUrl("/").permitAll())
-        .authorizeRequests(a -> a.antMatchers("/", "/error", "/webjars/**", "/oauth2/authorization/github", "/oauth2/authorization/facebook", "/oauth2/authorization/gmail", "/graphiql", "/graphql", "/vendor/**","/users/testuser").permitAll()
+        .authorizeRequests(a -> a.antMatchers("/", "/error", "/webjars/**", "/oauth2/authorization/github", "/oauth2/authorization/facebook", "/oauth2/authorization/gmail", "/graphiql", "/graphql", "/vendor/**","/test").permitAll()
         .anyRequest().authenticated())
         .csrf(c -> c.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
         .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))

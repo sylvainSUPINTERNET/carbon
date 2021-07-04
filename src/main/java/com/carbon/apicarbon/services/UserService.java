@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 import static com.carbon.apicarbon.constants.DefaultSettingsInventory.INIT_INVENTORY_MAX_STACK;
 
 import com.carbon.apicarbon.dto.inventories.InventoryDTO;
-import com.carbon.apicarbon.dto.item.ItemDto;
 import com.carbon.apicarbon.dto.users.UserFullProfileDto;
 import com.carbon.apicarbon.dto.users.UserSaveDto;
 import com.carbon.apicarbon.models.Inventory;

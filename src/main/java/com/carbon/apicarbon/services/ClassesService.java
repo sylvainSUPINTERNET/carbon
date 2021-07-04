@@ -2,18 +2,26 @@ package com.carbon.apicarbon.services;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
 import com.carbon.apicarbon.dto.classes.ClassesDto;
+import com.carbon.apicarbon.dto.item.ItemDto;
+import com.carbon.apicarbon.models.Item;
+import com.carbon.apicarbon.repositories.ItemRepository;
 import com.carbon.apicarbon.staticEnum.ClassEnum;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ClassesService {
+
+    @Autowired
+    ItemRepository itemRepository;
+
+    ModelMapper modelMapper = new ModelMapper();
 
     public ClassesService() {}
 
@@ -29,11 +37,27 @@ public class ClassesService {
         }
     }
 
+    public Item getClasseItem(String classeName) {
+        if ( classeName.equals(ClassEnum.Guerrier.name()) ) {
+            return this.itemRepository.findByName("Lames de forceur").get(0);
+        } else if ( classeName.equals(ClassEnum.Mage.name()) ) {
+            return this.itemRepository.findByName("Le bob gucci").get(0);
+        } else {
+            return this.itemRepository.findByName("Le calepin").get(0);
+        }
+    }
+
+
     public List<ClassesDto> getClasses() {
         List<ClassesDto> resp = new ArrayList<ClassesDto>();
         Stream.of(ClassEnum.values()).forEach( valueEnum -> {
-            ClassesDto newClasse = new ClassesDto(valueEnum.name(), this.getDescriptionForClass(valueEnum.name()));
-             resp.add(newClasse);
+            Item itemClass = this.getClasseItem(valueEnum.name());
+
+            List<Item> itemClassList = new ArrayList<>();
+            itemClassList.add(itemClass);
+
+            ClassesDto newClasse = new ClassesDto(valueEnum.name(), this.getDescriptionForClass(valueEnum.name()), itemClassList);
+            resp.add(newClasse);
         });
         return resp;
     }

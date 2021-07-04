@@ -14,8 +14,7 @@ public class ItemDto {
     public Integer maxStack;
     public String description;
     public boolean isConsumable;
-
-
+    public String quality;
     public Set<EffectDto> effects;
     public Set<ItemTypeDto> itemTypes;
 
@@ -25,6 +24,16 @@ public class ItemDto {
     public long getId(){
         return this.id;
     }
+
+    
+    public String getQuality() {
+        return this.quality;
+    }
+
+    public void setQuality(String quality) {
+        this.quality = quality;
+    }
+
 
     public void setId(long id) {
         this.id = id;

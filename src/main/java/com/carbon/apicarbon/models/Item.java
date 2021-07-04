@@ -56,6 +56,9 @@ public class Item implements Serializable {
     @ManyToMany(mappedBy = "items")
     private List<Inventory> inventories;
 
+    @Column 
+    private String quality;
+
     @ManyToMany
     @JoinTable(name = "item_effect", 
     joinColumns = @JoinColumn(name="effect_id", referencedColumnName = "id"),
@@ -63,7 +66,7 @@ public class Item implements Serializable {
     @JsonIgnore
     private Set<Effect> effects;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "item_items_type", 
     joinColumns = @JoinColumn(name="item_type_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "item_id", referencedColumnName = "id"))
@@ -94,7 +97,7 @@ public class Item implements Serializable {
      * @param itemType
      */
     public Item(String name, String uuid, Long unitPrice, Long levelRequired, String mediaUrl, Integer maxStack,
-            String description, boolean isConsumable, Set<Effect> effects, Set<ItemType> itemType) {
+            String description, boolean isConsumable, Set<Effect> effects, Set<ItemType> itemType, String quality) {
         this.name = name;
         this.uuid = uuid;
         this.unitPrice = unitPrice;
@@ -105,8 +108,16 @@ public class Item implements Serializable {
         this.isConsumable = isConsumable;
         this.effects = effects;
         this.itemType = itemType;
+        this.quality = quality;
     }
 
+    public String getQuality () {
+        return this.quality;
+    }
+
+    public void setQuality(String quality) {
+        this.quality = quality;
+    }
 
     public Set<Effect> getEffects() {
         return this.effects;
