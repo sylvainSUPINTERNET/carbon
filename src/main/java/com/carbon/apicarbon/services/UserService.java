@@ -63,7 +63,7 @@ public class UserService {
             newProfile.setLevel((long) 1);
             newProfile.setMaxLevel(Long.valueOf(70));
             userSaveDto.setProfile(newProfile);
-            newProfile.setClasse(ClassEnum.Guerrier.name());
+            newProfile.setClasse(null);
 
 
             List<Item> items = this.itemRepository.findByName("Pierre de foyer");
