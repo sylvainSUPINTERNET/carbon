@@ -21,9 +21,6 @@ public class ClassesController {
     @Autowired
     ClassesService classesService;
 
-    @Autowired
-    ItemRepository itemRepository;
-
     @GetMapping("/classes") 
     public ResponseEntity<List<ClassesDto>> getClasses(@AuthenticationPrincipal OAuth2User principal) {
         return ResponseEntity.ok().body(this.classesService.getClasses());  
@@ -31,6 +28,11 @@ public class ClassesController {
     
     @PutMapping("/classes/{classeName}")
     public ResponseEntity<?> joinClasse(@AuthenticationPrincipal OAuth2User principal, @PathVariable String classeName){
-        return ResponseEntity.ok().body("Ask for join " + classeName);
+        cl
+        if ( this.classesService.joinClasse(principal.getAttribute("email"), classeName) ) {
+            return ResponseEntity.ok().body("You are now a "+ classeName);
+        } else {
+            return ResponseEntity.badRequest().body("Error while trying to join classe");
+        }
     }
 }

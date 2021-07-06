@@ -1,14 +1,17 @@
 package com.carbon.apicarbon.services;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
+import javax.transaction.Transactional;
+
 import com.carbon.apicarbon.dto.classes.ClassesDto;
-import com.carbon.apicarbon.dto.item.ItemDto;
 import com.carbon.apicarbon.models.Item;
+import com.carbon.apicarbon.models.Users;
 import com.carbon.apicarbon.repositories.ItemRepository;
+import com.carbon.apicarbon.repositories.UserRepository;
 import com.carbon.apicarbon.staticEnum.ClassEnum;
 
 import org.modelmapper.ModelMapper;
@@ -20,6 +23,9 @@ public class ClassesService {
 
     @Autowired
     ItemRepository itemRepository;
+
+    @Autowired
+    UserRepository userRepostRepository;
 
     ModelMapper modelMapper = new ModelMapper();
 
@@ -62,5 +68,21 @@ public class ClassesService {
         return resp;
     }
     
+    @Transactional(rollbackOn = Exception.class) 
+    public boolean joinClasse(String userEmail, String classeName) {
+        Optional<Users> userOptional = this.userRepostRepository.findByEmail(userEmail);
+    
+        if ( !classeName.equals(ClassEnum.Guerrier.name()) && !classeName.equals(ClassEnum.Mage.name()) && !classeName.equals(ClassEnum.Moine.name()) ) {
+            return false;
+        }
+        
+        if ( userOptional.isPresent() ) {
+            userOptional.get().getProfile().setClasse(classeName);
+            this.userRepostRepository.save(userOptional.get());
+            return true;
+        } else {
+            return false;
+        }
+    }
     
 }
