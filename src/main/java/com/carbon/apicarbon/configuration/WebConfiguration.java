@@ -24,7 +24,8 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter   {
         .logout(l -> l.logoutSuccessUrl("/").permitAll())
         .authorizeRequests(a -> a.antMatchers("/", "/error", "/webjars/**", "/oauth2/authorization/github", "/oauth2/authorization/facebook", "/oauth2/authorization/gmail", "/graphiql", "/graphql", "/vendor/**","/test").permitAll()
         .anyRequest().authenticated())
-        .csrf(c -> c.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+        //.csrf(c -> c.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+        .csrf().disable() // csrf enable block the PUT / POST request made by another origin, just disable this... 
         .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
         .oauth2Login()
         .successHandler(successHandler());

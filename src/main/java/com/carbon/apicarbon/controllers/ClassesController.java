@@ -1,6 +1,8 @@
 package com.carbon.apicarbon.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.carbon.apicarbon.dto.classes.ClassesDto;
 import com.carbon.apicarbon.repositories.ItemRepository;
@@ -28,9 +30,10 @@ public class ClassesController {
     
     @PutMapping("/classes/{classeName}")
     public ResponseEntity<?> joinClasse(@AuthenticationPrincipal OAuth2User principal, @PathVariable String classeName){
-        cl
         if ( this.classesService.joinClasse(principal.getAttribute("email"), classeName) ) {
-            return ResponseEntity.ok().body("You are now a "+ classeName);
+            Map<String, String> resp = new HashMap<String, String>();
+            resp.put("message", "Join classe " + classeName + " with success");
+            return ResponseEntity.ok().body(resp);
         } else {
             return ResponseEntity.badRequest().body("Error while trying to join classe");
         }
