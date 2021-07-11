@@ -50,13 +50,11 @@ public class UserService {
     
     @Transactional(rollbackOn = Exception.class) 
     public Users saveOrUpdate(UserSaveDto userSaveDto) {
-        
         if ( this.userRepository.findByEmail(userSaveDto.getEmail()).isPresent() ) {
             // DO nothing
             UserService.logger.info("User with same email already exists ( IGNORE CREATE ) ");
             return null;
         } else {
-
             // Init user / his profile / inventory 
             Profile newProfile = new Profile();
             newProfile.setCarbong((long) 15);

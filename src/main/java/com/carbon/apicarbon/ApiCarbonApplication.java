@@ -124,10 +124,10 @@ public class ApiCarbonApplication implements CommandLineRunner {
 		}
 
 
-		Profile profile = new Profile(0L, 1L, inventory, 70L, 0L, null);
-		user1.setProfile(profile);
-		this.profileRepository.save(profile);
-		this.userRepository.save(user1);
+		// Profile profile = new Profile(0L, 1L, inventory, 70L, 0L, null);
+		// user1.setProfile(profile);
+		// this.profileRepository.save(profile);
+		// this.userRepository.save(user1);
 
 
 		List<Item> itemBaseClasseWar = this.itemRepository.findByName("Lames de forceur");
